@@ -50,7 +50,16 @@ public class Customer {
     @Override
     public boolean equals(Object obj) {
         // TODO Auto-generated method stub
-        return super.equals(obj);
+        if(this == obj){
+            return true;
+        }
+        if(obj == null || getClass() != obj.getClass()){
+            return false;
+        }
+
+        Customer c = (Customer) obj;
+
+        return (name.equals(c.name) && id.equals(c.getId()));
     }
 
     @Override

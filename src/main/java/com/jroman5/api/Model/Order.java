@@ -1,5 +1,7 @@
 package com.jroman5.api.Model;
 
+import java.util.Objects;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -84,6 +86,52 @@ public class Order {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Order{");
+        sb.append("id=").append(id);
+        sb.append(", customer_id=").append(customer_id);
+        sb.append(", product_id=").append(product_id);
+        sb.append(", quantity=").append(quantity);
+        sb.append('}');
+        return sb.toString();
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.id);
+        hash = 97 * hash + Objects.hashCode(this.customer_id);
+        hash = 97 * hash + Objects.hashCode(this.product_id);
+        hash = 97 * hash + Objects.hashCode(this.quantity);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Order other = (Order) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.customer_id, other.customer_id)) {
+            return false;
+        }
+        if (!Objects.equals(this.product_id, other.product_id)) {
+            return false;
+        }
+        return Objects.equals(this.quantity, other.quantity);
     }
 
     
