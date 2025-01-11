@@ -12,7 +12,6 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name="order")
 public class Order {
-
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,30 +21,26 @@ public class Order {
     @Column(name = "customer_id")
     private Integer customer_id;
 
-    @Column(name= "product_id")
-    private Integer product_id;
-
-
-    @Column(name= "quantity")
-    private Integer quantity;
+    @Column(name= "total", precision = 6, scale = 2)
+    private Float total;
 
     public Order() {
     }
 
 
-    public Order(Integer id, Integer customer_id, Integer product_id, Integer quantity) {
+    public Order(Integer id, Integer customer_id, Float total, Integer quantity) {
         this.id = id;
         this.customer_id = customer_id;
-        this.product_id = product_id;
-        this.quantity = quantity;
+        this.total = total;
     }
 
 
-    public Order(Integer customer_id, Integer product_id, Integer quantity) {
+    public Order(Integer customer_id, Float total, Integer quantity) {
         this.customer_id = customer_id;
-        this.product_id = product_id;
-        this.quantity = quantity;
+        this.total = total;
+
     }
+
 
 
 
@@ -69,24 +64,18 @@ public class Order {
     }
 
 
-    public Integer getProduct_id() {
-        return product_id;
+    public Float getTotal() {
+        return total;
     }
 
 
-    public void setProduct_id(Integer product_id) {
-        this.product_id = product_id;
+    public void setTotal(Float total) {
+        this.total = total;
     }
 
 
-    public Integer getQuantity() {
-        return quantity;
-    }
 
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
 
     @Override
     public String toString() {
@@ -94,8 +83,7 @@ public class Order {
         sb.append("Order{");
         sb.append("id=").append(id);
         sb.append(", customer_id=").append(customer_id);
-        sb.append(", product_id=").append(product_id);
-        sb.append(", quantity=").append(quantity);
+        sb.append(", product_id=").append(total);
         sb.append('}');
         return sb.toString();
     }
@@ -105,8 +93,7 @@ public class Order {
         int hash = 7;
         hash = 97 * hash + Objects.hashCode(this.id);
         hash = 97 * hash + Objects.hashCode(this.customer_id);
-        hash = 97 * hash + Objects.hashCode(this.product_id);
-        hash = 97 * hash + Objects.hashCode(this.quantity);
+        hash = 97 * hash + Objects.hashCode(this.total);
         return hash;
     }
 
@@ -128,10 +115,10 @@ public class Order {
         if (!Objects.equals(this.customer_id, other.customer_id)) {
             return false;
         }
-        if (!Objects.equals(this.product_id, other.product_id)) {
+        if (!Objects.equals(this.total, other.total)) {
             return false;
         }
-        return Objects.equals(this.quantity, other.quantity);
+        return Objects.equals(this.total, other.total);
     }
 
     

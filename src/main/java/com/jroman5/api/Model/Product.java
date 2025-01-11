@@ -24,18 +24,31 @@ public class Product {
     @Column(name="quantity")
     private Integer quantity;
 
+    @Column(name= "price", precision=5, scale=2)
+    private Float price;
+
+    public Float getPrice() {
+        return price;
+    }
+
+    public void setPrice(Float price) {
+        this.price = price;
+    }
+
     public Product(){
 
     }
-    public Product(String name, Integer quantity){
+    public Product(String name, Integer quantity, Float price){
         this.name = name;
         this.quantity = quantity;
+        this.price = price;
         
     }
-    public Product(Integer Id, String name, Integer quantity){
+    public Product(Integer Id, String name, Integer quantity, Float price){
         this.id = Id;
         this.name = name;
         this.quantity = quantity;
+        this.price = price;
         
     }
 
@@ -70,6 +83,7 @@ public class Product {
         sb.append("id=").append(id);
         sb.append(", name=").append(name);
         sb.append(", quantity=").append(quantity);
+        sb.append(", price=").append(price);
         sb.append('}');
         return sb.toString();
     }
@@ -80,6 +94,7 @@ public class Product {
         hash = 97 * hash + Objects.hashCode(this.id);
         hash = 97 * hash + Objects.hashCode(this.name);
         hash = 97 * hash + Objects.hashCode(this.quantity);
+        hash = 97 * hash + Objects.hashCode(this.price);
         return hash;
     }
 
@@ -99,6 +114,9 @@ public class Product {
             return false;
         }
         if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if(!Objects.equals(this.price, other.price)){
             return false;
         }
         return Objects.equals(this.quantity, other.quantity);

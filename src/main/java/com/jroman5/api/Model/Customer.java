@@ -16,8 +16,19 @@ public class Customer {
     @Column(name="id")
     private Integer id;
 
-    @Column(name="name")
-    private String name;
+    @Column(name="first_name")
+    private String firstName;
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    @Column(name="last_name")
+    private String lastName;
 
     public Integer getId() {
         return id;
@@ -27,21 +38,23 @@ public class Customer {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String name) {
+        this.firstName = name;
     }
 
-    public Customer(Integer id, String name) {
+    public Customer(Integer id, String firstName, String lastName) {
         this.id = id;
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
-    public Customer(String name) {
-        this.name = name;
+    public Customer(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public Customer() {
@@ -59,18 +72,15 @@ public class Customer {
 
         Customer c = (Customer) obj;
 
-        return (name.equals(c.name) && id.equals(c.getId()));
+        return (firstName.equals(c.getLastName()) && id.equals(c.getId()) && lastName.equals(c.getLastName()));
     }
 
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
-        return "Customer{ Name: " + getName() + 
-            " id: " + getId() +
-            "}";
+        return "Customer{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
     }
-
-
-    
-    
 }

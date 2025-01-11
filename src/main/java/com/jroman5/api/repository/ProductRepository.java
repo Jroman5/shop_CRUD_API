@@ -7,5 +7,6 @@ import com.jroman5.api.Model.Product;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer>{
-    
+    //getbyid()
+    //getbyname()
 }

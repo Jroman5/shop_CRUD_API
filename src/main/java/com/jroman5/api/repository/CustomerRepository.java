@@ -7,5 +7,7 @@ import com.jroman5.api.Model.Customer;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Integer>{
+
+    //getbyname()
     
 }

@@ -7,5 +7,6 @@ import com.jroman5.api.Model.Order;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order,Integer>{
-    
+    //getbyid()
+    //getbyname()
 }
