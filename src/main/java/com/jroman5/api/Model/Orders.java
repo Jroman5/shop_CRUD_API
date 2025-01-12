@@ -1,5 +1,6 @@
 package com.jroman5.api.Model;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -7,11 +8,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import org.springframework.data.relational.core.mapping.Table;
 
 @Entity
-@Table(name="order")
-public class Order {
+@Table(name="orders")
+public class Orders {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,20 +23,20 @@ public class Order {
     private Integer customer_id;
 
     @Column(name= "total", precision = 6, scale = 2)
-    private Float total;
+    private BigDecimal total;
 
-    public Order() {
+    public Orders() {
     }
 
 
-    public Order(Integer id, Integer customer_id, Float total, Integer quantity) {
+    public Orders(Integer id, Integer customer_id, BigDecimal total) {
         this.id = id;
         this.customer_id = customer_id;
         this.total = total;
     }
 
 
-    public Order(Integer customer_id, Float total, Integer quantity) {
+    public Orders(Integer customer_id, BigDecimal total) {
         this.customer_id = customer_id;
         this.total = total;
 
@@ -64,12 +65,12 @@ public class Order {
     }
 
 
-    public Float getTotal() {
+    public BigDecimal getTotal() {
         return total;
     }
 
 
-    public void setTotal(Float total) {
+    public void setTotal(BigDecimal total) {
         this.total = total;
     }
 
@@ -108,7 +109,7 @@ public class Order {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Order other = (Order) obj;
+        final Orders other = (Orders) obj;
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }

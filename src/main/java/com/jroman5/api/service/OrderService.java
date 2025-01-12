@@ -3,7 +3,7 @@ package com.jroman5.api.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.jroman5.api.Model.Order;
+import com.jroman5.api.Model.Orders;
 import com.jroman5.api.repository.OrderRepository;
 @Service
 public class OrderService {
@@ -16,8 +16,8 @@ public class OrderService {
         this.or = repo;
     }
 
-    public Order getOrder(Integer orderId){
-        Order res = or.getReferenceById(orderId);
+    public Orders getOrder(Integer orderId){
+        Orders res = or.getReferenceById(orderId);
         return res;
     }
 

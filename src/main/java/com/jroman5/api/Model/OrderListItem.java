@@ -1,10 +1,13 @@
 package com.jroman5.api.Model;
 
 import jakarta.persistence.*;
+import org.springframework.data.relational.core.mapping.Table;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
+@Table(name="order_list_item")
 public class OrderListItem {
 
     @Id
@@ -21,8 +24,27 @@ public class OrderListItem {
     @Column(name="item_quantity")
     private Integer quantity;
 
-    @Column(name="cost")
-    private Integer cost;
+    @Column(name= "cost", precision=5, scale=2)
+    private BigDecimal cost;
+
+    public OrderListItem(Integer id, Integer orderId, Integer itemId, Integer quantity, BigDecimal cost){
+        this.id = id;
+        this.orderId = orderId;
+        this.itemId = itemId;
+        this.quantity = quantity;
+        this.cost = cost;
+    }
+
+    public OrderListItem(Integer orderId, Integer itemId, Integer quantity, BigDecimal cost){
+        this.orderId = orderId;
+        this.itemId = itemId;
+        this.quantity = quantity;
+        this.cost = cost;
+    }
+
+    public OrderListItem(){
+
+    }
 
     public Integer getId() {
         return id;
@@ -56,11 +78,11 @@ public class OrderListItem {
         this.quantity = quantity;
     }
 
-    public Integer getCost() {
+    public BigDecimal getCost() {
         return cost;
     }
 
-    public void setCost(Integer cost) {
+    public void setCost(BigDecimal cost) {
         this.cost = cost;
     }
 

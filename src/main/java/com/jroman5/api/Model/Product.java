@@ -1,5 +1,6 @@
 package com.jroman5.api.Model;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -7,7 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import org.springframework.data.relational.core.mapping.Table;
 
 @Entity
 @Table(name = "product")
@@ -25,26 +26,26 @@ public class Product {
     private Integer quantity;
 
     @Column(name= "price", precision=5, scale=2)
-    private Float price;
+    private BigDecimal price;
 
-    public Float getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Float price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
     public Product(){
 
     }
-    public Product(String name, Integer quantity, Float price){
+    public Product(String name, Integer quantity, BigDecimal price){
         this.name = name;
         this.quantity = quantity;
         this.price = price;
         
     }
-    public Product(Integer Id, String name, Integer quantity, Float price){
+    public Product(Integer Id, String name, Integer quantity, BigDecimal price){
         this.id = Id;
         this.name = name;
         this.quantity = quantity;
