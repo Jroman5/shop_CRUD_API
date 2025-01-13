@@ -20,4 +20,8 @@ public class CustomerService {
         return cr.getReferenceById(id);
 
     }
+
+    public Customer saveCustomer(Customer customer){
+        return cr.save(customer);
+    }
 }

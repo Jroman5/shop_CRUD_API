@@ -21,6 +21,11 @@ public class OrderService {
         return res;
     }
 
+    public Orders saveOrder(Orders order){
+        Orders res = or.save(order);
+        return res;
+    }
+
 
 
 }
