@@ -12,7 +12,7 @@ import org.springframework.data.relational.core.mapping.Table;
 public class Customer {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Integer id;
 
