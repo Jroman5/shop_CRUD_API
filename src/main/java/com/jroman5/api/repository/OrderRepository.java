@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.jroman5.api.Model.Orders;
 
 @Repository
-public interface OrderRepository extends JpaRepository<Orders,Integer>{
+public interface OrderRepository extends JpaRepository<Orders,Long>{
     //getbyid()
     //getbyname()
 }

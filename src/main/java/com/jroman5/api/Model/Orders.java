@@ -3,41 +3,52 @@ package com.jroman5.api.Model;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.springframework.data.relational.core.mapping.Table;
+import java.util.List;
 
 @Entity
 @Table(name="orders")
 public class Orders {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
 
-    @Column(name = "customer_id")
-    private Integer customer_id;
+    @ManyToOne
+    @JoinColumn(name="customers_id")
+    Customer customer;
 
     @Column(name= "total", precision = 6, scale = 2)
     private BigDecimal total;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
+    List<Item> items;
+
+
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
 
     public Orders() {
     }
 
 
-    public Orders(Integer id, Integer customer_id, BigDecimal total) {
+    public Orders(Long id, Customer customer, BigDecimal total) {
         this.id = id;
-        this.customer_id = customer_id;
+        this.customer = customer;
         this.total = total;
     }
 
 
-    public Orders(Integer customer_id, BigDecimal total) {
-        this.customer_id = customer_id;
+    public Orders(Customer customer, BigDecimal total) {
+        this.customer = customer;
         this.total = total;
 
     }
@@ -45,23 +56,23 @@ public class Orders {
 
 
 
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
 
-    public Integer getCustomer_id() {
-        return customer_id;
+    public Customer getCustomer_id() {
+        return customer;
     }
 
 
-    public void setCustomer_id(Integer customer_id) {
-        this.customer_id = customer_id;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
 
@@ -83,7 +94,7 @@ public class Orders {
         StringBuilder sb = new StringBuilder();
         sb.append("Order{");
         sb.append("id=").append(id);
-        sb.append(", customer_id=").append(customer_id);
+        sb.append(", customer_id=").append(customer.getId());
         sb.append(", product_id=").append(total);
         sb.append('}');
         return sb.toString();
@@ -93,7 +104,7 @@ public class Orders {
     public int hashCode() {
         int hash = 7;
         hash = 97 * hash + Objects.hashCode(this.id);
-        hash = 97 * hash + Objects.hashCode(this.customer_id);
+        hash = 97 * hash + Objects.hashCode(this.customer.getId());
         hash = 97 * hash + Objects.hashCode(this.total);
         return hash;
     }
@@ -113,7 +124,7 @@ public class Orders {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.customer_id, other.customer_id)) {
+        if (!Objects.equals(this.customer, other.customer)) {
             return false;
         }
         if (!Objects.equals(this.total, other.total)) {

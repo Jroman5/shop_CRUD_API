@@ -1,18 +1,16 @@
 package com.jroman5.api.controller;
 
 import com.jroman5.api.Model.Customer;
-import com.jroman5.api.Model.OrderListItem;
+import com.jroman5.api.Model.Item;
 import com.jroman5.api.Model.Orders;
 import com.jroman5.api.Model.Product;
 import com.jroman5.api.service.CustomerService;
-import com.jroman5.api.service.OrderListItemService;
+import com.jroman5.api.service.ItemService;
 import com.jroman5.api.service.OrderService;
 import com.jroman5.api.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class StoreController {
@@ -21,7 +19,7 @@ public class StoreController {
 
     private ProductService ps;
 
-    private OrderListItemService olis;
+    private ItemService olis;
 
     public StoreController(){
     }
@@ -42,7 +40,7 @@ public class StoreController {
     }
 
     @Autowired
-    public void setOlis(OrderListItemService olis){
+    public void setOlis(ItemService olis){
         this.olis = olis;
     }
 
@@ -54,8 +52,8 @@ public class StoreController {
     }
 
     @PostMapping("/item")
-    public ResponseEntity<OrderListItem> saveOrderListItem(@RequestBody OrderListItem olir){
-        OrderListItem res = olis.saveOrderListItem(olir);
+    public ResponseEntity<Item> saveItem(@RequestBody Item olir){
+        Item res = olis.saveOrderListItem(olir);
         return ResponseEntity.status(200).body(res);
     }
 
@@ -70,5 +68,29 @@ public class StoreController {
         Product res = null;
         res = ps.saveProduct(product);
         return ResponseEntity.status(200).body(product);
+    }
+    
+    @GetMapping("/item/{id}")
+    public ResponseEntity<Item> getItem(@PathVariable Long id){
+        Item res = olis.getItem(id);
+        return ResponseEntity.status(200).body(res);
+    }
+
+    @GetMapping("/customer/{id}")
+    public ResponseEntity<Customer> getCustomer(@PathVariable Long id){
+        Customer res = cs.getCustomerByid(id);
+        return ResponseEntity.status(200).body(res);
+    }
+
+    @GetMapping("/product/{id}")
+    public ResponseEntity<Product> getProductById(@PathVariable Long id){
+        Product res = ps.getProductById(id);
+        return ResponseEntity.status(200).body(res);
+    }
+
+    @GetMapping("/order/{id}")
+    public ResponseEntity<Orders> getOrderById(@PathVariable Long id){
+        Orders res = os.getOrderById(id);
+        return ResponseEntity.status(200).body(res);
     }
 }

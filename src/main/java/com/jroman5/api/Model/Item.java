@@ -8,15 +8,16 @@ import java.util.Objects;
 
 @Entity
 @Table(name="order_list_item")
-public class OrderListItem {
+public class Item {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    private Integer id;
+    private Long id;
 
-    @Column(name="order_id")
-    private Integer orderId;
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Orders order;
 
     @Column(name="item_id")
     private Integer itemId;
@@ -27,39 +28,49 @@ public class OrderListItem {
     @Column(name= "cost", precision=5, scale=2)
     private BigDecimal cost;
 
-    public OrderListItem(Integer id, Integer orderId, Integer itemId, Integer quantity, BigDecimal cost){
+
+
+    public Orders getOrder() {
+        return order;
+    }
+
+    public void setOrder(Orders order) {
+        this.order = order;
+    }
+
+    public Item(Long id, Orders order, Integer itemId, Integer quantity, BigDecimal cost){
         this.id = id;
-        this.orderId = orderId;
+        this.order = order;
         this.itemId = itemId;
         this.quantity = quantity;
         this.cost = cost;
     }
 
-    public OrderListItem(Integer orderId, Integer itemId, Integer quantity, BigDecimal cost){
-        this.orderId = orderId;
+    public Item(Orders order, Integer itemId, Integer quantity, BigDecimal cost){
+        this.order = order;
         this.itemId = itemId;
         this.quantity = quantity;
         this.cost = cost;
     }
 
-    public OrderListItem(){
+    public Item(){
 
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getOrderId() {
-        return orderId;
+    public Orders getOrderId() {
+        return order;
     }
 
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
+    public void setOrderId(Orders order) {
+        this.order = order;
     }
 
     public Integer getItemId() {
@@ -90,7 +101,7 @@ public class OrderListItem {
     public String toString() {
         return "OrderListItem{" +
                 "id=" + id +
-                ", orderId=" + orderId +
+                ", orderId=" + order.getId() +
                 ", itemId=" + itemId +
                 ", quantity=" + quantity +
                 ", cost=" + cost +
@@ -100,12 +111,12 @@ public class OrderListItem {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof OrderListItem that)) return false;
-        return id.equals(that.id) && orderId.equals(that.orderId) && itemId.equals(that.itemId) && quantity.equals(that.quantity) && cost.equals(that.cost);
+        if (!(o instanceof Item that)) return false;
+        return id.equals(that.id) && order.equals(that.order) && itemId.equals(that.itemId) && quantity.equals(that.quantity) && cost.equals(that.cost);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, orderId, itemId, quantity, cost);
+        return Objects.hash(id, order.getId(), itemId, quantity, cost);
     }
 }

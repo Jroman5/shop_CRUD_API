@@ -16,14 +16,14 @@ public class Product {
 
     @Column(name="product_id")
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     
     @Column(name="name")
     private String name;
 
-    @Column(name="quantity")
-    private Integer quantity;
+    @Column(name="stock")
+    private Integer stock;
 
     @Column(name= "price", precision=5, scale=2)
     private BigDecimal price;
@@ -41,23 +41,23 @@ public class Product {
     }
     public Product(String name, Integer quantity, BigDecimal price){
         this.name = name;
-        this.quantity = quantity;
+        this.stock = quantity;
         this.price = price;
         
     }
-    public Product(Integer Id, String name, Integer quantity, BigDecimal price){
+    public Product(Long Id, String name, Integer quantity, BigDecimal price){
         this.id = Id;
         this.name = name;
-        this.quantity = quantity;
+        this.stock = quantity;
         this.price = price;
         
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -69,12 +69,12 @@ public class Product {
         this.name = name;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public Integer getStock() {
+        return stock;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
+    public void setStock(Integer quantity) {
+        this.stock = quantity;
     }
 
     @Override
@@ -83,7 +83,7 @@ public class Product {
         sb.append("Product{");
         sb.append("id=").append(id);
         sb.append(", name=").append(name);
-        sb.append(", quantity=").append(quantity);
+        sb.append(", quantity=").append(stock);
         sb.append(", price=").append(price);
         sb.append('}');
         return sb.toString();
@@ -94,7 +94,7 @@ public class Product {
         int hash = 7;
         hash = 97 * hash + Objects.hashCode(this.id);
         hash = 97 * hash + Objects.hashCode(this.name);
-        hash = 97 * hash + Objects.hashCode(this.quantity);
+        hash = 97 * hash + Objects.hashCode(this.stock);
         hash = 97 * hash + Objects.hashCode(this.price);
         return hash;
     }
@@ -120,7 +120,7 @@ public class Product {
         if(!Objects.equals(this.price, other.price)){
             return false;
         }
-        return Objects.equals(this.quantity, other.quantity);
+        return Objects.equals(this.stock, other.stock);
     }
 
     

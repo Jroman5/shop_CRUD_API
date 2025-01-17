@@ -1,11 +1,9 @@
 package com.jroman5.api.Model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.springframework.data.relational.core.mapping.Table;
+
+import java.util.List;
 
 @Entity
 @Table(name = "customer")
@@ -14,13 +12,25 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    private Integer id;
+    private Long id;
 
     @Column(name="first_name")
     private String firstName;
 
     @Column(name="last_name")
     private String lastName;
+
+
+    @OneToMany(mappedBy="customer", cascade = CascadeType.ALL)
+    private List<Orders> orders;
+
+    public List<Orders> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Orders> orders) {
+        this.orders = orders;
+    }
 
     public String getLastName() {
         return lastName;
@@ -30,11 +40,11 @@ public class Customer {
         this.lastName = lastName;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -46,7 +56,7 @@ public class Customer {
         this.firstName = name;
     }
 
-    public Customer(Integer id, String firstName, String lastName) {
+    public Customer(Long id, String firstName, String lastName) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

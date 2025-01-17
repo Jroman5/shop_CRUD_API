@@ -16,7 +16,7 @@ public class OrderService {
         this.or = repo;
     }
 
-    public Orders getOrder(Integer orderId){
+    public Orders getOrderById(Long orderId){
         Orders res = or.getReferenceById(orderId);
         return res;
     }

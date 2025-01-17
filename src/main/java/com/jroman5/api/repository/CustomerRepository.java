@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.jroman5.api.Model.Customer;
 
 @Repository
-public interface CustomerRepository extends JpaRepository<Customer, Integer>{
+public interface CustomerRepository extends JpaRepository<Customer, Long>{
 
     //getbyname()
     

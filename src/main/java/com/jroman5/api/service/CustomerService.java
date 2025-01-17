@@ -16,7 +16,7 @@ public class CustomerService {
         this.cr = repo;
     }
 
-    public Customer getCustomerByid(Integer id){
+    public Customer getCustomerByid(Long id){
         return cr.getReferenceById(id);
 
     }
