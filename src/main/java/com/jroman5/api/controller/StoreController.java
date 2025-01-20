@@ -1,6 +1,10 @@
 package com.jroman5.api.controller;
 
 import com.jroman5.api.Model.Customer;
+import com.jroman5.api.Model.DTO.CustomerDTO;
+import com.jroman5.api.Model.DTO.ItemDTO;
+import com.jroman5.api.Model.DTO.OrderDTO;
+import com.jroman5.api.Model.DTO.ProductDTO;
 import com.jroman5.api.Model.Item;
 import com.jroman5.api.Model.Orders;
 import com.jroman5.api.Model.Product;
@@ -45,52 +49,62 @@ public class StoreController {
     }
 
     @PostMapping("/order")
-    public ResponseEntity<Orders> saveOrder(@RequestBody Orders order){
-        Orders res = null;
+    public ResponseEntity<OrderDTO> saveOrder(@RequestBody Orders order){
+        OrderDTO res;
         res = os.saveOrder(order);
+        System.out.println(res.toString());
+        System.out.println(res.getItems().toString());
         return ResponseEntity.status(200).body(res);
     }
 
     @PostMapping("/item")
-    public ResponseEntity<Item> saveItem(@RequestBody Item olir){
-        Item res = olis.saveOrderListItem(olir);
+    public ResponseEntity<ItemDTO> saveItem(@RequestBody Item olir){
+        ItemDTO res = olis.saveOrderListItem(olir);
+        System.out.println(res.toString());
         return ResponseEntity.status(200).body(res);
     }
 
     @PostMapping("/customer")
-    public ResponseEntity<Customer> saveCustomer(@RequestBody Customer customer){
-        Customer res = null;
+    public ResponseEntity<CustomerDTO> saveCustomer(@RequestBody Customer customer){
+        CustomerDTO res;
         res = cs.saveCustomer(customer);
+        System.out.println(res.toString());
+        System.out.println(res.getOrders().toString());
         return ResponseEntity.status(200).body(res);
     }
     @PostMapping("/product")
-    public ResponseEntity<Product> saveProduct(@RequestBody Product product){
-        Product res = null;
+    public ResponseEntity<ProductDTO> saveProduct(@RequestBody Product product){
+        ProductDTO res = null;
         res = ps.saveProduct(product);
-        return ResponseEntity.status(200).body(product);
+        System.out.println(res.toString());
+        return ResponseEntity.status(200).body(res);
     }
     
     @GetMapping("/item/{id}")
-    public ResponseEntity<Item> getItem(@PathVariable Long id){
-        Item res = olis.getItem(id);
+    public ResponseEntity<ItemDTO> getItem(@PathVariable Long id){
+        ItemDTO res = olis.getItem(id);
         return ResponseEntity.status(200).body(res);
     }
 
     @GetMapping("/customer/{id}")
-    public ResponseEntity<Customer> getCustomer(@PathVariable Long id){
-        Customer res = cs.getCustomerByid(id);
+    public ResponseEntity<CustomerDTO> getCustomer(@PathVariable Long id){
+        CustomerDTO res = cs.getCustomerByid(id);
+        System.out.println(res.toString());
+        System.out.println(res.getOrders().toString());
+        System.out.println(res.getOrders().get(0).getCustomerId().toString());
         return ResponseEntity.status(200).body(res);
     }
 
     @GetMapping("/product/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long id){
-        Product res = ps.getProductById(id);
+    public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id){
+        ProductDTO res = ps.getProductById(id);
         return ResponseEntity.status(200).body(res);
     }
 
     @GetMapping("/order/{id}")
-    public ResponseEntity<Orders> getOrderById(@PathVariable Long id){
-        Orders res = os.getOrderById(id);
+    public ResponseEntity<OrderDTO> getOrderById(@PathVariable Long id){
+        OrderDTO res = os.getOrderById(id);
+        System.out.println(res.getItems().toString());
         return ResponseEntity.status(200).body(res);
     }
 }

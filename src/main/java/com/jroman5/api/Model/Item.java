@@ -1,5 +1,7 @@
 package com.jroman5.api.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -7,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
-@Table(name="order_list_item")
+@Table(name="item")
 public class Item {
 
     @Id
@@ -15,8 +17,10 @@ public class Item {
     @Column(name="id")
     private Long id;
 
+
     @ManyToOne
     @JoinColumn(name = "order_id")
+    @JsonBackReference
     private Orders order;
 
     @Column(name="item_id")

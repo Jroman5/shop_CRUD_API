@@ -1,8 +1,11 @@
 package com.jroman5.api.Model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.springframework.data.relational.core.mapping.Table;
 import java.util.List;
@@ -16,15 +19,19 @@ public class Orders {
     @Column(name = "id")
     private Long id;
 
+
     @ManyToOne
     @JoinColumn(name="customers_id")
+    @JsonBackReference
     Customer customer;
 
     @Column(name= "total", precision = 6, scale = 2)
     private BigDecimal total;
 
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
-    List<Item> items;
+    @JsonManagedReference
+    private List<Item> items;
 
 
 
@@ -37,6 +44,7 @@ public class Orders {
     }
 
     public Orders() {
+        this.items = new ArrayList<>();
     }
 
 
@@ -44,12 +52,16 @@ public class Orders {
         this.id = id;
         this.customer = customer;
         this.total = total;
+        this.items = new ArrayList<>();
     }
+
+
 
 
     public Orders(Customer customer, BigDecimal total) {
         this.customer = customer;
         this.total = total;
+        this.items = new ArrayList<>();
 
     }
 

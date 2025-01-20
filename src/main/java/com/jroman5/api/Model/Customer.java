@@ -1,8 +1,10 @@
 package com.jroman5.api.Model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,12 +22,17 @@ public class Customer {
     @Column(name="last_name")
     private String lastName;
 
-
     @OneToMany(mappedBy="customer", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Orders> orders;
+
 
     public List<Orders> getOrders() {
         return orders;
+    }
+
+    public void appendOrder(Orders order){
+        this.orders.add(order);
     }
 
     public void setOrders(List<Orders> orders) {
@@ -60,14 +67,18 @@ public class Customer {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.orders = new ArrayList<>();
     }
 
     public Customer(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.orders = new ArrayList<>();
     }
 
+
     public Customer() {
+        this.orders = new ArrayList<>();
     }
 
     @Override
