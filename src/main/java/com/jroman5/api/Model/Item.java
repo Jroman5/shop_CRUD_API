@@ -20,7 +20,6 @@ public class Item {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    @JsonBackReference
     private Orders order;
 
     @Column(name="item_id")
@@ -95,6 +94,10 @@ public class Item {
 
     public BigDecimal getCost() {
         return cost;
+    }
+
+    public BigDecimal getTotalCost(){
+        return this.cost.multiply(BigDecimal.valueOf(this.getQuantity()));
     }
 
     public void setCost(BigDecimal cost) {

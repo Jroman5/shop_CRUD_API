@@ -107,4 +107,5 @@ public class StoreController {
         System.out.println(res.getItems().toString());
         return ResponseEntity.status(200).body(res);
     }
+//    TODO: add PutMappings for all the objects to update them in teh database using the endpoints. Pass the data in the body
 }

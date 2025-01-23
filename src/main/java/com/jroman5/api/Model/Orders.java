@@ -22,7 +22,6 @@ public class Orders {
 
     @ManyToOne
     @JoinColumn(name="customers_id")
-    @JsonBackReference
     Customer customer;
 
     @Column(name= "total", precision = 6, scale = 2)
@@ -30,7 +29,6 @@ public class Orders {
 
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
-    @JsonManagedReference
     private List<Item> items;
 
 
@@ -44,6 +42,7 @@ public class Orders {
     }
 
     public Orders() {
+        this.total = BigDecimal.ZERO;
         this.items = new ArrayList<>();
     }
 

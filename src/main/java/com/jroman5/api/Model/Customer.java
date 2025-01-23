@@ -23,7 +23,6 @@ public class Customer {
     private String lastName;
 
     @OneToMany(mappedBy="customer", cascade = CascadeType.ALL)
-    @JsonManagedReference
     private List<Orders> orders;
 
 
