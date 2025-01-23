@@ -21,7 +21,6 @@ public class CustomerDTO {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.orders = new ArrayList<>();
     }
 
     public CustomerDTO() {

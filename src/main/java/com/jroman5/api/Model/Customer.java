@@ -10,10 +10,10 @@ import java.util.List;
 @Entity
 @Table(name = "customer")
 public class Customer {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name= "id")
     private Long id;
 
     @Column(name="first_name")
@@ -22,9 +22,25 @@ public class Customer {
     @Column(name="last_name")
     private String lastName;
 
-    @OneToMany(mappedBy="customer", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="customer", cascade = CascadeType.REMOVE)
     private List<Orders> orders;
 
+
+    public Customer(Long id, String firstName, String lastName) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public Customer(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+
+    public Customer() {
+
+    }
 
     public List<Orders> getOrders() {
         return orders;
@@ -60,24 +76,6 @@ public class Customer {
 
     public void setFirstName(String name) {
         this.firstName = name;
-    }
-
-    public Customer(Long id, String firstName, String lastName) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.orders = new ArrayList<>();
-    }
-
-    public Customer(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.orders = new ArrayList<>();
-    }
-
-
-    public Customer() {
-        this.orders = new ArrayList<>();
     }
 
     @Override

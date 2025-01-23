@@ -68,8 +68,7 @@ public class StoreController {
     public ResponseEntity<CustomerDTO> saveCustomer(@RequestBody Customer customer){
         CustomerDTO res;
         res = cs.saveCustomer(customer);
-        System.out.println(res.toString());
-        System.out.println(res.getOrders().toString());
+
         return ResponseEntity.status(200).body(res);
     }
     @PostMapping("/product")
@@ -90,8 +89,7 @@ public class StoreController {
     public ResponseEntity<CustomerDTO> getCustomer(@PathVariable Long id){
         CustomerDTO res = cs.getCustomerByid(id);
         System.out.println(res.toString());
-        System.out.println(res.getOrders().toString());
-        System.out.println(res.getOrders().get(0).getCustomerId().toString());
+//        System.out.println(res.getOrders().toString());
         return ResponseEntity.status(200).body(res);
     }
 
@@ -107,5 +105,56 @@ public class StoreController {
         System.out.println(res.getItems().toString());
         return ResponseEntity.status(200).body(res);
     }
+
+    @PutMapping("/order")
+    public ResponseEntity<OrderDTO> updateOrder(@RequestBody Orders order){
+        OrderDTO res = os.getOrderById(order.getId());
+        if(res != null){
+            res = os.saveOrder(order);
+            return ResponseEntity.status(200).body(res);
+        }
+        else {
+            // throw an exception and handle it seperately
+            return ResponseEntity.status(400).body(null);
+        }
+    }
+
+    @PutMapping("/item")
+    public ResponseEntity<ItemDTO> updateItem(@RequestBody Item item) {
+        ItemDTO res = olis.getItem(item.getId());
+        if (res != null) {
+            res = olis.saveOrderListItem(item);
+            return ResponseEntity.status(200).body(res);
+        } else {
+            // throw an exception and handle it seperately
+            return ResponseEntity.status(400).body(null);
+        }
+    }
+
+    @PutMapping("/customer")
+    public ResponseEntity<CustomerDTO> updateCustomer(@RequestBody Customer customer) {
+        CustomerDTO res = cs.getCustomerByid(customer.getId());
+        if (res != null) {
+            res = cs.saveCustomer(customer);
+            return ResponseEntity.status(200).body(res);
+        } else {
+            // throw an exception and handle it seperately
+            return ResponseEntity.status(400).body(null);
+        }
+    }
+
+    @PutMapping("/product")
+    public ResponseEntity<ProductDTO> updateproduct(@RequestBody Product product) {
+        ProductDTO res = ps.getProductById(product.getId());
+        if (res != null) {
+            res = ps.saveProduct(product);
+            return ResponseEntity.status(200).body(res);
+        } else {
+            // throw an exception and handle it seperately
+            return ResponseEntity.status(400).body(null);
+        }
+    }
 //    TODO: add PutMappings for all the objects to update them in teh database using the endpoints. Pass the data in the body
 }
+
+

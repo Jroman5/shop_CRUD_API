@@ -21,7 +21,7 @@ public class Orders {
 
 
     @ManyToOne
-    @JoinColumn(name="customers_id")
+    @JoinColumn(name="customer_id")
     Customer customer;
 
     @Column(name= "total", precision = 6, scale = 2)

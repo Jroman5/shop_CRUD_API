@@ -14,14 +14,22 @@ public class CustomerService {
     private CustomerRepository cr;
     private ModelMapper mp;
 
+    public CustomerService(){
+    }
+
     @Autowired
-    public CustomerService(CustomerRepository repo){
+    public void setCustomerRepo(CustomerRepository repo){
         this.cr = repo;
-        this.mp = new ModelMapper();
+    }
+
+    @Autowired
+    public void setModelMapper(ModelMapper mp){
+        this.mp = mp;
     }
 
     public CustomerDTO getCustomerByid(Long id){
         Customer customer = cr.getReferenceById(id);
+        System.out.println(customer.toString());
         CustomerDTO res = this.mp.map(customer, CustomerDTO.class);
         return res;
 

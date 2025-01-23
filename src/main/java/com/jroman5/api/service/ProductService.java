@@ -19,7 +19,11 @@ public class ProductService {
     @Autowired
     public void setProductRepository(ProductRepository pr){
         this.pr = pr;
-        this.mp = new ModelMapper();
+    }
+
+    @Autowired
+    public void setModelMapper(ModelMapper modelMapper){
+    this.mp = modelMapper;
     }
 
     public ProductDTO saveProduct(Product product){

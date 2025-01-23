@@ -23,7 +23,11 @@ public class ItemService {
     @Autowired
     public void setOrderListItemRepo(ItemRepository olir){
         this.olir = olir;
-        this.mp = new ModelMapper();
+    }
+
+    @Autowired
+    public void setModelMapper(ModelMapper modelMapper){
+        this.mp = modelMapper;
     }
 
     @Autowired
@@ -33,7 +37,7 @@ public class ItemService {
 
     public ItemDTO saveOrderListItem(Item oli){
         Item itemSaved = olir.save(oli);
-        Orders order = itemSaved.getOrderId();
+        Orders order = mp.map(os.getOrderById(itemSaved.getOrderId().getId()), Orders.class);
 
         order.setTotal(order.getTotal().add(itemSaved.getTotalCost()));
         os.saveOrder(order);
