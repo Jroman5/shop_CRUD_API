@@ -12,6 +12,7 @@ import com.jroman5.api.service.CustomerService;
 import com.jroman5.api.service.ItemService;
 import com.jroman5.api.service.OrderService;
 import com.jroman5.api.service.ProductService;
+import com.jroman5.api.service.dtoMapper.ObjectDTOService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,8 @@ public class StoreController {
     private ProductService ps;
 
     private ItemService olis;
+
+    private ObjectDTOService objDTOMap;
 
     public StoreController(){
     }
@@ -48,70 +51,84 @@ public class StoreController {
         this.olis = olis;
     }
 
+    @Autowired
+    public void setObjDTOMap(ObjectDTOService objectMap){
+        this.objDTOMap = objectMap;
+    }
+
     @PostMapping("/order")
     public ResponseEntity<OrderDTO> saveOrder(@RequestBody Orders order){
-        OrderDTO res;
+        Orders res;
         res = os.saveOrder(order);
+        OrderDTO resDTO = this.objDTOMap.mapOrders(res);
         System.out.println(res.toString());
         System.out.println(res.getItems().toString());
-        return ResponseEntity.status(200).body(res);
+        return ResponseEntity.status(200).body(resDTO);
     }
 
     @PostMapping("/item")
     public ResponseEntity<ItemDTO> saveItem(@RequestBody Item olir){
-        ItemDTO res = olis.saveOrderListItem(olir);
+        Item res = olis.saveOrderListItem(olir);
+        ItemDTO resDTO = this.objDTOMap.mapItem(res);
         System.out.println(res.toString());
-        return ResponseEntity.status(200).body(res);
+        return ResponseEntity.status(200).body(resDTO);
     }
 
     @PostMapping("/customer")
     public ResponseEntity<CustomerDTO> saveCustomer(@RequestBody Customer customer){
-        CustomerDTO res;
+        Customer res;
         res = cs.saveCustomer(customer);
+        CustomerDTO resDTO = this.objDTOMap.mapCustomer(res);
 
-        return ResponseEntity.status(200).body(res);
+        return ResponseEntity.status(200).body(resDTO);
     }
     @PostMapping("/product")
     public ResponseEntity<ProductDTO> saveProduct(@RequestBody Product product){
-        ProductDTO res = null;
+        Product res = null;
         res = ps.saveProduct(product);
+        ProductDTO resDTO = this.objDTOMap.mapProduct(res);
         System.out.println(res.toString());
-        return ResponseEntity.status(200).body(res);
+        return ResponseEntity.status(200).body(resDTO);
     }
     
     @GetMapping("/item/{id}")
     public ResponseEntity<ItemDTO> getItem(@PathVariable Long id){
-        ItemDTO res = olis.getItem(id);
-        return ResponseEntity.status(200).body(res);
+        Item res = olis.getItem(id);
+        ItemDTO resDTO = objDTOMap.mapItem(res);
+        return ResponseEntity.status(200).body(resDTO);
     }
 
     @GetMapping("/customer/{id}")
     public ResponseEntity<CustomerDTO> getCustomer(@PathVariable Long id){
-        CustomerDTO res = cs.getCustomerByid(id);
+        Customer res = cs.getCustomerByid(id);
+        CustomerDTO resDTO = objDTOMap.mapCustomer(res);
         System.out.println(res.toString());
 //        System.out.println(res.getOrders().toString());
-        return ResponseEntity.status(200).body(res);
+        return ResponseEntity.status(200).body(resDTO);
     }
 
     @GetMapping("/product/{id}")
     public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id){
-        ProductDTO res = ps.getProductById(id);
-        return ResponseEntity.status(200).body(res);
+        Product res = ps.getProductById(id);
+        ProductDTO resDTO = objDTOMap.mapProduct(res);
+        return ResponseEntity.status(200).body(resDTO);
     }
 
     @GetMapping("/order/{id}")
     public ResponseEntity<OrderDTO> getOrderById(@PathVariable Long id){
-        OrderDTO res = os.getOrderById(id);
+        Orders res = os.getOrderById(id);
+        OrderDTO resDTO = objDTOMap.mapOrders(res);
         System.out.println(res.getItems().toString());
-        return ResponseEntity.status(200).body(res);
+        return ResponseEntity.status(200).body(resDTO);
     }
 
     @PutMapping("/order")
     public ResponseEntity<OrderDTO> updateOrder(@RequestBody Orders order){
-        OrderDTO res = os.getOrderById(order.getId());
+        Orders res = os.getOrderById(order.getId());
         if(res != null){
             res = os.saveOrder(order);
-            return ResponseEntity.status(200).body(res);
+            OrderDTO resDTO = objDTOMap.mapOrders(res);
+            return ResponseEntity.status(200).body(resDTO);
         }
         else {
             // throw an exception and handle it seperately
@@ -121,10 +138,11 @@ public class StoreController {
 
     @PutMapping("/item")
     public ResponseEntity<ItemDTO> updateItem(@RequestBody Item item) {
-        ItemDTO res = olis.getItem(item.getId());
+        Item res = olis.getItem(item.getId());
         if (res != null) {
             res = olis.saveOrderListItem(item);
-            return ResponseEntity.status(200).body(res);
+            ItemDTO resDTO = objDTOMap.mapItem(res);
+            return ResponseEntity.status(200).body(resDTO);
         } else {
             // throw an exception and handle it seperately
             return ResponseEntity.status(400).body(null);
@@ -133,10 +151,11 @@ public class StoreController {
 
     @PutMapping("/customer")
     public ResponseEntity<CustomerDTO> updateCustomer(@RequestBody Customer customer) {
-        CustomerDTO res = cs.getCustomerByid(customer.getId());
+        Customer res = cs.getCustomerByid(customer.getId());
         if (res != null) {
             res = cs.saveCustomer(customer);
-            return ResponseEntity.status(200).body(res);
+            CustomerDTO resDTO = objDTOMap.mapCustomer(res);
+            return ResponseEntity.status(200).body(resDTO);
         } else {
             // throw an exception and handle it seperately
             return ResponseEntity.status(400).body(null);
@@ -145,15 +164,41 @@ public class StoreController {
 
     @PutMapping("/product")
     public ResponseEntity<ProductDTO> updateproduct(@RequestBody Product product) {
-        ProductDTO res = ps.getProductById(product.getId());
+        Product res = ps.getProductById(product.getId());
         if (res != null) {
             res = ps.saveProduct(product);
-            return ResponseEntity.status(200).body(res);
+            ProductDTO resDTO = objDTOMap.mapProduct(res);
+            return ResponseEntity.status(200).body(resDTO);
         } else {
             // throw an exception and handle it seperately
             return ResponseEntity.status(400).body(null);
         }
     }
+
+    @DeleteMapping("/customer/{id}")
+    public ResponseEntity<CustomerDTO> deleteCustomerById(@PathVariable Long id){
+        cs.deleteCustomerById(id);
+        return ResponseEntity.status(200).body(null);
+    }
+
+    @DeleteMapping("/product/{id}")
+    public ResponseEntity<ProductDTO> deleteProductById(@PathVariable Long id){
+        ps.deleteProductById(id);
+        return ResponseEntity.status(200).body(null);
+    }
+
+    @DeleteMapping("/item/{id}")
+    public ResponseEntity<Customer> deleteItemById(@PathVariable Long id){
+        olis.deleteItemById(id);
+        return ResponseEntity.status(200).body(null);
+    }
+
+    @DeleteMapping("/order/{id}")
+    public ResponseEntity<Customer> deleteOrderById(@PathVariable Long id){
+        os.deleteOrderById(id);
+        return ResponseEntity.status(200).body(null);
+    }
+
 //    TODO: add PutMappings for all the objects to update them in teh database using the endpoints. Pass the data in the body
 }
 

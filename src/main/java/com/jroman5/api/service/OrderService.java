@@ -40,15 +40,15 @@ public class OrderService {
         this.cs = customerService;
     }
 
-    public OrderDTO getOrderById(Long orderId){
+    public Orders getOrderById(Long orderId){
         Orders orderFetched = or.getReferenceById(orderId);
-        OrderDTO res = this.mp.map(orderFetched, OrderDTO.class);
-        return res;
+
+        return orderFetched;
     }
 
-    public OrderDTO saveOrder(Orders order){
+    public Orders saveOrder(Orders order){
         Orders orderSaved = or.save(order);
-        Customer customer = mp.map(cs.getCustomerByid(orderSaved.getCustomer_id().getId()), Customer.class);
+        Customer customer = cs.getCustomerByid(order.getCustomer_id());
         List<Orders> orders = customer.getOrders();
         if(orders != null){
             for(Orders od: orders){
@@ -62,8 +62,14 @@ public class OrderService {
 
         customer.setOrders(orders);
         cs.saveCustomer(customer);
-        OrderDTO res = mp.map(orderSaved, OrderDTO.class);
-        return res;
+
+        return orderSaved;
+    }
+
+    public void deleteOrderById(Long id){
+        if(or.existsById(id)) {
+            or.deleteById(id);
+        }
     }
 
 

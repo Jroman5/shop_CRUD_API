@@ -1,7 +1,6 @@
 package com.jroman5.api.service;
 
 import com.jroman5.api.Model.Customer;
-import com.jroman5.api.Model.DTO.CustomerDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +11,6 @@ import com.jroman5.api.repository.CustomerRepository;
 @Service
 public class CustomerService {
     private CustomerRepository cr;
-    private ModelMapper mp;
 
     public CustomerService(){
     }
@@ -22,22 +20,21 @@ public class CustomerService {
         this.cr = repo;
     }
 
-    @Autowired
-    public void setModelMapper(ModelMapper mp){
-        this.mp = mp;
-    }
 
-    public CustomerDTO getCustomerByid(Long id){
+    public Customer getCustomerByid(Long id){
         Customer customer = cr.getReferenceById(id);
         System.out.println(customer.toString());
-        CustomerDTO res = this.mp.map(customer, CustomerDTO.class);
-        return res;
+        return customer;
 
     }
 
-    public CustomerDTO saveCustomer(Customer customer){
+    public Customer saveCustomer(Customer customer){
         Customer customerSaved = cr.save(customer);
-        CustomerDTO res = this.mp.map(customerSaved, CustomerDTO.class);
-        return res;
+        return customerSaved;
+    }
+    public void deleteCustomerById(Long id){
+        if(cr.existsById(id)) {
+            cr.deleteById(id);
+        }
     }
 }

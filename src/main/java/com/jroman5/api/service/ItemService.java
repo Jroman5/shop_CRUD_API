@@ -1,6 +1,7 @@
 package com.jroman5.api.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jroman5.api.Model.DTO.CustomerDTO;
 import com.jroman5.api.Model.DTO.ItemDTO;
 import com.jroman5.api.Model.Item;
 import com.jroman5.api.Model.Orders;
@@ -16,7 +17,6 @@ import java.math.BigDecimal;
 public class ItemService {
     private ItemRepository olir;
     private OrderService os;
-    private ModelMapper mp;
 
     public ItemService(){}
 
@@ -26,29 +26,29 @@ public class ItemService {
     }
 
     @Autowired
-    public void setModelMapper(ModelMapper modelMapper){
-        this.mp = modelMapper;
-    }
-
-    @Autowired
     public void setOrderService(OrderService orderService){
         this.os = orderService;
     }
 
-    public ItemDTO saveOrderListItem(Item oli){
+    public Item saveOrderListItem(Item oli){
         Item itemSaved = olir.save(oli);
-        Orders order = mp.map(os.getOrderById(itemSaved.getOrderId().getId()), Orders.class);
+        Orders order = os.getOrderById(itemSaved.getId());
 
         order.setTotal(order.getTotal().add(itemSaved.getTotalCost()));
         os.saveOrder(order);
 
-        ItemDTO res = this.mp.map(itemSaved, ItemDTO.class);
-        return res;
+
+        return itemSaved;
     }
 
-    public ItemDTO getItem(Long id){
+    public Item getItem(Long id){
         Item itemFetched = olir.getReferenceById(id);
-        ItemDTO res = this.mp.map(itemFetched, ItemDTO.class);
-        return res;
+        return itemFetched;
+    }
+
+    public void deleteItemById(Long id){
+        if(olir.existsById(id)) {
+            olir.deleteById(id);
+        }
     }
 }

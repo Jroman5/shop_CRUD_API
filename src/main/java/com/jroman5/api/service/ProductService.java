@@ -1,5 +1,6 @@
 package com.jroman5.api.service;
 
+import com.jroman5.api.Model.DTO.CustomerDTO;
 import com.jroman5.api.Model.DTO.ProductDTO;
 import com.jroman5.api.Model.Product;
 import com.jroman5.api.repository.ProductRepository;
@@ -26,16 +27,20 @@ public class ProductService {
     this.mp = modelMapper;
     }
 
-    public ProductDTO saveProduct(Product product){
+    public Product saveProduct(Product product){
         Product productSaved = pr.save(product);
-        ProductDTO res = this.mp.map(productSaved, ProductDTO.class);
-        return res;
+        return productSaved;
     }
 
-    public ProductDTO getProductById(Long id){
+    public Product getProductById(Long id){
         Product fetchedProduct = pr.getReferenceById(id);
-        ProductDTO res =this.mp.map(fetchedProduct, ProductDTO.class);
-        return res;
+        return fetchedProduct;
+    }
+
+    public void deleteProductById(Long id){
+        if(pr.existsById(id)) {
+            pr.deleteById(id);
+        }
     }
 
 }

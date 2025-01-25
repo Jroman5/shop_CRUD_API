@@ -1,4 +1,4 @@
-package com.jroman5.api.Model;
+package com.jroman5.api.service.dtoMapper;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
