@@ -17,7 +17,7 @@ public class OrderService {
 
     private OrderRepository or;
     private CustomerService cs;
-    private ModelMapper mp;
+
 
 
 
@@ -25,10 +25,6 @@ public class OrderService {
 
     }
 
-    @Autowired
-    public void setModelMapper(ModelMapper modelMapper){
-        this.mp = modelMapper;
-    }
 
     @Autowired
     public void setOrderRepository(OrderRepository orderRepo){
@@ -44,6 +40,11 @@ public class OrderService {
         Orders orderFetched = or.getReferenceById(orderId);
 
         return orderFetched;
+    }
+
+    public List<Orders> getAllOrders(){
+        List<Orders> res = this.or.findAll();
+        return res;
     }
 
     public Orders saveOrder(Orders order){

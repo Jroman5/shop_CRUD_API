@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class StoreController {
     private CustomerService cs;
@@ -56,7 +58,7 @@ public class StoreController {
         this.objDTOMap = objectMap;
     }
 
-    @PostMapping("/order")
+    @PostMapping("/orders")
     public ResponseEntity<OrderDTO> saveOrder(@RequestBody Orders order){
         Orders res;
         res = os.saveOrder(order);
@@ -66,7 +68,7 @@ public class StoreController {
         return ResponseEntity.status(200).body(resDTO);
     }
 
-    @PostMapping("/item")
+    @PostMapping("/items")
     public ResponseEntity<ItemDTO> saveItem(@RequestBody Item olir){
         Item res = olis.saveOrderListItem(olir);
         ItemDTO resDTO = this.objDTOMap.mapItem(res);
@@ -74,7 +76,7 @@ public class StoreController {
         return ResponseEntity.status(200).body(resDTO);
     }
 
-    @PostMapping("/customer")
+    @PostMapping("/customers")
     public ResponseEntity<CustomerDTO> saveCustomer(@RequestBody Customer customer){
         Customer res;
         res = cs.saveCustomer(customer);
@@ -82,7 +84,7 @@ public class StoreController {
 
         return ResponseEntity.status(200).body(resDTO);
     }
-    @PostMapping("/product")
+    @PostMapping("/products")
     public ResponseEntity<ProductDTO> saveProduct(@RequestBody Product product){
         Product res = null;
         res = ps.saveProduct(product);
@@ -90,15 +92,45 @@ public class StoreController {
         System.out.println(res.toString());
         return ResponseEntity.status(200).body(resDTO);
     }
+
+    @GetMapping("/items")
+    public ResponseEntity<List<ItemDTO>> getAllItems(){
+        List<Item> res = this.olis.getAllItems();
+        List<ItemDTO> resDTO = this.objDTOMap.mapItem(res);
+        return ResponseEntity.status(200).body(resDTO);
+    }
+
+    @GetMapping("/products")
+    public ResponseEntity<List<ProductDTO>> getAllProducts(){
+        List<Product> res = this.ps.getAllProduct();
+        List<ProductDTO> resDTO = this.objDTOMap.mapProduct(res);
+        return ResponseEntity.status(200).body(resDTO);
+    }
+
+    @GetMapping("/orders")
+    public ResponseEntity<List<OrderDTO>> getAllOrders(){
+        List<Orders> res = this.os.getAllOrders();
+        List<OrderDTO> resDTO = this.objDTOMap.mapOrders(res);
+        return ResponseEntity.status(200).body(resDTO);
+
+
+    }
+
+    @GetMapping("/customers")
+    public ResponseEntity<List<CustomerDTO>> getAllCustomers(){
+        List<Customer> res = this.cs.getAllCustomers();
+        List<CustomerDTO> resDTO = this.objDTOMap.mapCustomer(res);
+        return ResponseEntity.status(200).body(resDTO);
+    }
     
-    @GetMapping("/item/{id}")
+    @GetMapping("/items/{id}")
     public ResponseEntity<ItemDTO> getItem(@PathVariable Long id){
         Item res = olis.getItem(id);
         ItemDTO resDTO = objDTOMap.mapItem(res);
         return ResponseEntity.status(200).body(resDTO);
     }
 
-    @GetMapping("/customer/{id}")
+    @GetMapping("/customers/{id}")
     public ResponseEntity<CustomerDTO> getCustomer(@PathVariable Long id){
         Customer res = cs.getCustomerByid(id);
         CustomerDTO resDTO = objDTOMap.mapCustomer(res);
@@ -107,14 +139,14 @@ public class StoreController {
         return ResponseEntity.status(200).body(resDTO);
     }
 
-    @GetMapping("/product/{id}")
+    @GetMapping("/products/{id}")
     public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id){
         Product res = ps.getProductById(id);
         ProductDTO resDTO = objDTOMap.mapProduct(res);
         return ResponseEntity.status(200).body(resDTO);
     }
 
-    @GetMapping("/order/{id}")
+    @GetMapping("/orders/{id}")
     public ResponseEntity<OrderDTO> getOrderById(@PathVariable Long id){
         Orders res = os.getOrderById(id);
         OrderDTO resDTO = objDTOMap.mapOrders(res);
@@ -122,7 +154,7 @@ public class StoreController {
         return ResponseEntity.status(200).body(resDTO);
     }
 
-    @PutMapping("/order")
+    @PutMapping("/orders")
     public ResponseEntity<OrderDTO> updateOrder(@RequestBody Orders order){
         Orders res = os.getOrderById(order.getId());
         if(res != null){
@@ -136,7 +168,7 @@ public class StoreController {
         }
     }
 
-    @PutMapping("/item")
+    @PutMapping("/items")
     public ResponseEntity<ItemDTO> updateItem(@RequestBody Item item) {
         Item res = olis.getItem(item.getId());
         if (res != null) {
@@ -149,7 +181,7 @@ public class StoreController {
         }
     }
 
-    @PutMapping("/customer")
+    @PutMapping("/customers")
     public ResponseEntity<CustomerDTO> updateCustomer(@RequestBody Customer customer) {
         Customer res = cs.getCustomerByid(customer.getId());
         if (res != null) {
@@ -162,7 +194,7 @@ public class StoreController {
         }
     }
 
-    @PutMapping("/product")
+    @PutMapping("/products")
     public ResponseEntity<ProductDTO> updateproduct(@RequestBody Product product) {
         Product res = ps.getProductById(product.getId());
         if (res != null) {
@@ -175,25 +207,25 @@ public class StoreController {
         }
     }
 
-    @DeleteMapping("/customer/{id}")
+    @DeleteMapping("/customers/{id}")
     public ResponseEntity<CustomerDTO> deleteCustomerById(@PathVariable Long id){
         cs.deleteCustomerById(id);
         return ResponseEntity.status(200).body(null);
     }
 
-    @DeleteMapping("/product/{id}")
+    @DeleteMapping("/products/{id}")
     public ResponseEntity<ProductDTO> deleteProductById(@PathVariable Long id){
         ps.deleteProductById(id);
         return ResponseEntity.status(200).body(null);
     }
 
-    @DeleteMapping("/item/{id}")
+    @DeleteMapping("/items/{id}")
     public ResponseEntity<Customer> deleteItemById(@PathVariable Long id){
         olis.deleteItemById(id);
         return ResponseEntity.status(200).body(null);
     }
 
-    @DeleteMapping("/order/{id}")
+    @DeleteMapping("/orders/{id}")
     public ResponseEntity<Customer> deleteOrderById(@PathVariable Long id){
         os.deleteOrderById(id);
         return ResponseEntity.status(200).body(null);

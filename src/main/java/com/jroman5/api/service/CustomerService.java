@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.jroman5.api.repository.CustomerRepository;
 
+import java.util.List;
+
 
 @Service
 public class CustomerService {
@@ -26,6 +28,11 @@ public class CustomerService {
         System.out.println(customer.toString());
         return customer;
 
+    }
+
+    public List<Customer> getAllCustomers(){
+        List<Customer> res = cr.findAll();
+        return res;
     }
 
     public Customer saveCustomer(Customer customer){

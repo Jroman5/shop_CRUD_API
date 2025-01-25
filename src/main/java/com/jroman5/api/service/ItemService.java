@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class ItemService {
@@ -39,6 +40,11 @@ public class ItemService {
 
 
         return itemSaved;
+    }
+
+    public List<Item> getAllItems(){
+        List<Item> res = olir.findAll();
+        return res;
     }
 
     public Item getItem(Long id){

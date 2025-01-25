@@ -8,10 +8,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductService {
     private ProductRepository pr;
-    private ModelMapper mp;
+
 
     public ProductService(){
 
@@ -22,14 +24,15 @@ public class ProductService {
         this.pr = pr;
     }
 
-    @Autowired
-    public void setModelMapper(ModelMapper modelMapper){
-    this.mp = modelMapper;
-    }
 
     public Product saveProduct(Product product){
         Product productSaved = pr.save(product);
         return productSaved;
+    }
+
+    public List<Product> getAllProduct(){
+        List<Product> res = this.pr.findAll();
+        return res;
     }
 
     public Product getProductById(Long id){
