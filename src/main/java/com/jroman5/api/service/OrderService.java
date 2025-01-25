@@ -48,7 +48,7 @@ public class OrderService {
 
     public Orders saveOrder(Orders order){
         Orders orderSaved = or.save(order);
-        Customer customer = cs.getCustomerByid(order.getCustomer_id());
+        Customer customer = cs.getCustomerByid(order.getCustomer_id().getId());
         List<Orders> orders = customer.getOrders();
         if(orders != null){
             for(Orders od: orders){
